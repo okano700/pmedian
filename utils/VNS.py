@@ -26,36 +26,25 @@ def shuffle_neighbor(A,S,n, max = 999):
   sSol = len(S)
   aux = [A[:,i].argsort()[:n][::1] for i in S]
   aux = np.array(aux)
-  """
-  opt = []
-  for i in range(len(S)):
-    v = []
-    for j in range(len(aux[i])):
-      if A[S[i]][aux[i][j]] != max:
-        v.append(aux[i][j])
-    opt.append(np.array(v))
-  opt = np.array(opt)
-  aux = opt
-  """
   for i in range(len(S)):
     S[i] = np.random.choice(aux[i])
 
   return S
 
-def get_neighbor(A,S,n):
+def get_neighbor(A,S,n, rand = False):
   """
   A = matriz de adjacencia
   S = Solução
   n = numero de pontos para cada mediana
   """
   sSol = len(S)
-  aux = [A[:,i].argsort()[:n][::1] for i in S]
-  aux = np.array(aux)
+  aux = np.array([A[:,i].argsort()[:n][::1] for i in S])
   cost = get_cost(A,S)
   Saux = list(S)
-  auxCost = get_cost(A,Saux)
-  ind = [i for i in range(len(S))]
-  np.random.shuffle(ind)
+  auxCost = int(cost)
+  ind = [i for i in range(sSol)]
+  if rand == True:
+    np.random.shuffle(ind)
   for i in ind:
     Saux = list(S)
     for j in range(len(aux[i])):
